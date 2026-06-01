@@ -32,7 +32,9 @@ export function CheckForm({
             placeholder={CHECK_PAGE_TEXT.compactPlaceholder}
           />
           <div className="flex min-h-16 flex-wrap items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-5 py-3 rounded-b-[1.6rem]">
-            <span className="text-sm font-black text-slate-400">{message.length}/{FORM_LIMITS.messageMaxLength}</span>
+            <span className="text-sm font-black text-slate-400">
+              {message.length}/{FORM_LIMITS.messageMaxLength}
+            </span>
             <div className="flex items-center gap-2">
               <button
                 className="min-h-11 rounded-full border border-slate-200 bg-white px-5 text-sm font-black text-slate-500"
@@ -47,17 +49,48 @@ export function CheckForm({
                 onClick={onAnalyze}
                 type="button"
               >
-                {isAnalyzing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                {isAnalyzing ? CHECK_PAGE_TEXT.compactAnalyzingButton : CHECK_PAGE_TEXT.compactAnalyzeButton}
+                {isAnalyzing && (
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
+                )}
+                {isAnalyzing
+                  ? CHECK_PAGE_TEXT.compactAnalyzingButton
+                  : CHECK_PAGE_TEXT.compactAnalyzeButton}
               </button>
             </div>
           </div>
         </div>
-        {pasteState !== "idle" && <p className="mt-3 text-center text-sm font-bold text-slate-500">{pasteMessage[pasteState]}</p>}
-        {analysisError && <p className="mt-3 text-center text-sm font-bold text-red-600">{analysisError}</p>}
+        {pasteState !== "idle" && (
+          <p className="mt-3 text-center text-sm font-bold text-slate-500">
+            {pasteMessage[pasteState]}
+          </p>
+        )}
+        {analysisError &&
+        analysisError === CHECK_PAGE_TEXT.serverErrorMessage ? (
+          <div
+            className={`mt-4 rounded-3xl border p-4 ${warm ? "border-amber-300 bg-amber-50" : "border-red-300 bg-red-50"}`}
+          >
+            <p className="text-base font-black text-red-700">
+              {CHECK_PAGE_TEXT.serverErrorTitle}
+            </p>
+            <p className="mt-2 text-sm font-bold text-slate-500">
+              {CHECK_PAGE_TEXT.serverErrorDescription}
+            </p>
+            <p className="mt-2 text-sm font-bold text-red-700">
+              {analysisError}
+            </p>
+          </div>
+        ) : (
+          analysisError && (
+            <p className="mt-3 text-center text-sm font-bold text-red-600">
+              {analysisError}
+            </p>
+          )
+        )}
 
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3 text-center sm:justify-start sm:text-left">
-          <p className="text-base font-black text-slate-400">{CHECK_PAGE_TEXT.examplePrompt}</p>
+          <p className="text-base font-black text-slate-400">
+            {CHECK_PAGE_TEXT.examplePrompt}
+          </p>
           <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
             {exampleMessages.map((example) => (
               <button
@@ -88,19 +121,32 @@ export function CheckForm({
 
   return (
     <div className={compact ? "" : "mx-auto max-w-3xl"}>
-      <div className={compact ? "rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200/70 sm:p-5" : panelClass(warm, "p-8")}>
+      <div
+        className={
+          compact
+            ? "rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200/70 sm:p-5"
+            : panelClass(warm, "p-8")
+        }
+      >
         {!compact && (
           <>
-            <p className="text-sm font-black text-slate-500">{CHECK_PAGE_TEXT.eyebrow}</p>
-            <h2 className="mt-1 text-3xl font-black text-slate-950">{CHECK_PAGE_TEXT.sectionTitle}</h2>
-            <p className="mb-6 mt-3 text-lg leading-8 text-slate-600">{CHECK_PAGE_TEXT.sectionDescription}</p>
+            <p className="text-sm font-black text-slate-500">
+              {CHECK_PAGE_TEXT.eyebrow}
+            </p>
+            <h2 className="mt-1 text-3xl font-black text-slate-950">
+              {CHECK_PAGE_TEXT.sectionTitle}
+            </h2>
+            <p className="mb-6 mt-3 text-lg leading-8 text-slate-600">
+              {CHECK_PAGE_TEXT.sectionDescription}
+            </p>
           </>
         )}
 
-
         <div>
           <div className="mb-3 flex items-center justify-between gap-3">
-            <label className="text-sm font-black text-slate-500">{CHECK_PAGE_TEXT.messageLabel}</label>
+            <label className="text-sm font-black text-slate-500">
+              {CHECK_PAGE_TEXT.messageLabel}
+            </label>
             <button
               className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-700"
               onClick={onPaste}
@@ -115,8 +161,33 @@ export function CheckForm({
             onChange={(event) => onMessageChange(event.target.value)}
             placeholder={CHECK_PAGE_TEXT.messagePlaceholder}
           />
-          {pasteState !== "idle" && <p className="mt-2 text-sm font-bold text-slate-500">{pasteMessage[pasteState]}</p>}
-          {analysisError && <p className="mt-2 text-sm font-bold text-red-600">{analysisError}</p>}
+          {pasteState !== "idle" && (
+            <p className="mt-2 text-sm font-bold text-slate-500">
+              {pasteMessage[pasteState]}
+            </p>
+          )}
+          {analysisError &&
+          analysisError === CHECK_PAGE_TEXT.serverErrorMessage ? (
+            <div
+              className={`mt-4 rounded-3xl border p-4 ${warm ? "border-amber-300 bg-amber-50" : "border-red-300 bg-red-50"}`}
+            >
+              <p className="text-base font-black text-red-700">
+                {CHECK_PAGE_TEXT.serverErrorTitle}
+              </p>
+              <p className="mt-2 text-sm font-bold text-slate-500">
+                {CHECK_PAGE_TEXT.serverErrorDescription}
+              </p>
+              <p className="mt-2 text-sm font-bold text-red-700">
+                {analysisError}
+              </p>
+            </div>
+          ) : (
+            analysisError && (
+              <p className="mt-2 text-sm font-bold text-red-600">
+                {analysisError}
+              </p>
+            )
+          )}
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
@@ -136,13 +207,23 @@ export function CheckForm({
         <label className="mt-4 flex gap-3 rounded-2xl border border-slate-200 bg-white p-4">
           <input
             checked={allowTrainingUse}
-            className={warm ? "mt-1 h-5 w-5 accent-amber-500" : "mt-1 h-5 w-5 accent-indigo-600"}
+            className={
+              warm
+                ? "mt-1 h-5 w-5 accent-amber-500"
+                : "mt-1 h-5 w-5 accent-indigo-600"
+            }
             onChange={(event) => onAllowTrainingUseChange(event.target.checked)}
             type="checkbox"
           />
           <span>
-            <span className="block text-sm font-black">{CHECK_PAGE_TEXT.trainingConsentTitle}</span>
-            {CHECK_PAGE_TEXT.trainingConsentDescription && <span className="mt-1 block text-xs font-bold text-slate-500">{CHECK_PAGE_TEXT.trainingConsentDescription}</span>}
+            <span className="block text-sm font-black">
+              {CHECK_PAGE_TEXT.trainingConsentTitle}
+            </span>
+            {CHECK_PAGE_TEXT.trainingConsentDescription && (
+              <span className="mt-1 block text-xs font-bold text-slate-500">
+                {CHECK_PAGE_TEXT.trainingConsentDescription}
+              </span>
+            )}
           </span>
         </label>
 
@@ -153,7 +234,9 @@ export function CheckForm({
           type="button"
         >
           {isAnalyzing && <LoaderCircle className="h-5 w-5 animate-spin" />}
-          {isAnalyzing ? CHECK_PAGE_TEXT.analyzingButton : CHECK_PAGE_TEXT.analyzeButton}
+          {isAnalyzing
+            ? CHECK_PAGE_TEXT.analyzingButton
+            : CHECK_PAGE_TEXT.analyzeButton}
         </button>
       </div>
     </div>

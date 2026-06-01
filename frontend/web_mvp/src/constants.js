@@ -15,6 +15,9 @@ export const CHECK_PAGE_TEXT = {
   tooShortMessage: "분석할 내용이 부족합니다.",
   serverErrorMessage:
     "분석 서버에 연결하지 못했습니다. 잠시 후 다시 시도해주세요.",
+  serverErrorTitle: "분석 서버 연결에 실패했습니다.",
+  serverErrorDescription:
+    "백엔드 분석 서비스가 현재 응답하지 않습니다. 잠시 후 다시 시도하거나, 공식 앱/고객센터를 통해 확인하세요.",
   trainingConsentCompact:
     "선택 동의: 분석 정확도 개선을 위해 입력한 메시지를 개인정보 제거 후 학습 데이터로 활용할 수 있습니다. 동의하지 않아도 메시지 분석 기능은 이용할 수 있습니다.",
   trainingConsentTitle:
@@ -63,6 +66,12 @@ export const RESULT_PAGE_TEXT = {
   feedbackThanks: "피드백이 기록되었습니다.",
   aiDisclaimer:
     "AI 판단 결과는 완벽하지 않을 수 있습니다. 조금이라도 의심되면 해당 기관이나 업체의 공식 앱, 공식 홈페이지, 대표 고객센터처럼 직접 확인할 수 있는 채널을 이용하세요.",
+  backendErrorTitle: "분석 서버 연결 실패",
+  backendErrorDescription:
+    "서버 오류로 인해 분석 결과를 불러오는 데 실패했습니다.",
+  backendErrorHelp: "잠시 후 다시 시도하거나 네트워크 연결을 확인해주세요.",
+  emptyText: "정보 없음",
+  noResultMessage: "분석 결과를 사용할 수 없습니다.",
 };
 
 export const HEADER_TEXT = {
@@ -132,5 +141,5 @@ export const EXAMPLE_MESSAGES = [
 
 export const API_ERROR_MESSAGES = {
   requestFailed: "분석 서버에 연결하지 못했습니다. 잠시 후 다시 시도해주세요.",
-  invalidJson: "분석 서버에 연결하지 못했습니다. 잠시 후 다시 시도해주세요.",
+  invalidJson: "유효하지 않은 Json 응답을 받았습니다.",
 };

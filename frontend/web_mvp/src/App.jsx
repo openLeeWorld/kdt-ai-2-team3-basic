@@ -8,7 +8,6 @@ import { CasesPage } from "./pages/CasesPage";
 import { ReportPage } from "./pages/ReportPage";
 import { GuidePage } from "./pages/GuidePage";
 import { CHECK_PAGE_TEXT, FORM_LIMITS } from "./constants.js";
-import { HOME_URL } from "./utils/API_URL"
 
 function App() {
   const tabIds = useMemo(() => MVP_TABS.map((tab) => tab.id), []);
@@ -28,6 +27,7 @@ function App() {
   const [reportType, setReportType] = useState("택배 사칭형");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState("");
+  const [serverError, setServerError] = useState("");
   const result = analysisResult;
   const hasResult = Boolean(result);
   const warm = mode === "warm";
@@ -44,6 +44,10 @@ function App() {
   }, [tabIds]);
 
   const changeTab = (tabId) => {
+    if (tabId === "check") {
+      setServerError("");
+      setAnalysisError("");
+    }
     setActiveTab(tabId);
     window.history.replaceState(null, "", `#${tabId}`);
   };
@@ -56,18 +60,25 @@ function App() {
       setAnalysisError(CHECK_PAGE_TEXT.tooShortMessage);
       return;
     }
+
     setIsAnalyzing(true);
     setSubmittedMessage(message);
     setAnalysisError("");
+
     try {
-      const nextResult = await predictSmishing({ message: trimmedMessage, allowTrainingUse });
+      const nextResult = await predictSmishing({
+        message: trimmedMessage,
+        allowTrainingUse,
+      });
       setAnalysisResult(nextResult);
+      setServerError("");
       changeTab("result");
       setPasteState("idle");
       setCopyState("idle");
     } catch (error) {
       setAnalysisResult(null);
-      setAnalysisError(CHECK_PAGE_TEXT.serverErrorMessage);
+      setServerError(CHECK_PAGE_TEXT.serverErrorMessage);
+      changeTab("result");
     } finally {
       setIsAnalyzing(false);
     }
@@ -102,7 +113,9 @@ function App() {
       `문자안심 체크 결과: ${result.riskLevel} (${result.riskScore}/100)`,
       result.summary,
       `판단 근거: ${(result.reasons ?? []).slice(0, 2).join(", ")}`,
-    ].filter(Boolean).join("\n");
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     try {
       await navigator.clipboard.writeText(shareText);
@@ -166,6 +179,7 @@ function App() {
                 message={submittedMessage}
                 result={result}
                 warm={warm}
+                errorMessage={serverError}
               />
             )}
             {activeTab === "cases" && <CasesPage warm={warm} />}

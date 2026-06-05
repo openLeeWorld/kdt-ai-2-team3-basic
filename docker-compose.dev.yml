@@ -12,6 +12,9 @@ services:
       - .env
     networks:
       - monitoring
+    depends_on:
+      mysql:
+        condition: service_healthy
   mysql:
     image: mysql:8.4
     container_name: mysql_container
@@ -30,6 +33,22 @@ services:
       - "3306:3306" # host port: container port
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "myuser",
+          "-pmypassword",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   prometheus:
     image: prom/prometheus:latest

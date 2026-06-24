@@ -288,6 +288,34 @@ Backend의 URL/static pattern pre-filtering과 deploy wrapper의 전처리는 �
 
 ---
 
+클린랩을 도입하여 Label 오류를 최소화 하고자 했습니다.
+
+데이터셋을 교차 다중학습/추론시켜 라벨품질이 지극히 낮은것을 의심 데이터로 판별 분리하여 CleanedDataset 확보가 가능하게 했습니다.
+
+예시:
+
+rfqu2z 음성 메일: 1개의 새로운 음성 메일이 있습니다. <URL> 이동하세요.
+<img width="1148" height="27" alt="image" src="https://github.com/user-attachments/assets/0c4a6299-75ea-4e77-81ad-b07bb8d0e6df" />
+
+label: 0  label_score: 0.1 is_label_issue: true 과 같이 라벨링이 의심되는 경우 의심 라벨링으로 판별되어 데이터셋에서 분리되게된다.
+
+---
+
+데이터의 확보를 위해 두가지 크롤링을 주기적으로 진행하고 있습니다.
+
+URLHAUS와 PHISTANK를 통한 URL 크롤링.
+매일 자정에 크롤링 진행후 VIRUSTOTAL을 통해 url에 대한 보고서를 생성. 한국어로 요악 생성하여 사용자가 열람할수 있게 합니다.
+
+최신피해사례를 RAG에 지속적으로 추가하기위해 KISA 보호나라, 경찰청, 등 최신 피해사례가 지속적으로 업데이트되는 소스에서 피해사례들을 수집합니다.
+SMS 원문에 대한 데이터의 부족으로 수집된 피해사례들을 GEMINI로 증강하여 PINECONE에 업로드하여 vectorDB에 유사도 비교를 위해 필요한 데이터를 충당하고 있습니다.
+
+
+---
+
+
+
+
+
 ## 9. 실행 방법
 
 ### Frontend 실행

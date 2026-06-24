@@ -1,6 +1,6 @@
 # 피싱/스미싱 문자 판별 프로젝트
 
-URL: https://smishing-detect-kdt2.cloud
+[배포 URL](https://smishing-detect-kdt2.cloud)
 
 ## 1. 프로젝트 개요
 
